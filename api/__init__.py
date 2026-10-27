@@ -3,6 +3,7 @@ from flask_restx import Api
 from .auth.views import auth_namespace
 from .students.views import students_namespace
 from .courses.views import courses_namespace
+from .reviews.views import reviews_namespace
 from .config.config import config_dict
 from .utils import db
 from .models.courses import Course
@@ -11,6 +12,7 @@ from .models.students import Student
 from .models. users import User
 from .models. grade import Score
 from .models. teacher import Teacher
+from .models.reviews import Review
 from flask_migrate import Migrate
 from flask_jwt_extended import JWTManager
 from werkzeug.exceptions import NotFound, MethodNotAllowed
@@ -49,6 +51,7 @@ def create_app(config=config_dict['dev']):
     api.add_namespace(auth_namespace, path='/auth')
     api.add_namespace(students_namespace, path='/students')
     api.add_namespace(courses_namespace, path='/courses')
+    api.add_namespace(reviews_namespace, path='/reviews')
 
     @api.errorhandler(NotFound)
     def not_found(error):
@@ -67,7 +70,8 @@ def create_app(config=config_dict['dev']):
             'Course': Course,
             'StudentCourse': StudentCourse,
             'Grade' : Score,
-            'Teacher' : Teacher       
+            'Teacher' : Teacher,
+            'Review': Review
                  }
 
     return app
